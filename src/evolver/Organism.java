@@ -7,6 +7,7 @@ public class Organism {
 	private String DNA;
 	private Random random;
 	
+	//Organism Constructor. Sets DNA to a random string of length DNASize.
 	public Organism(int DNASize) {
 		DNA = randomDNA(DNASize);
 		random = new Random();
@@ -20,6 +21,7 @@ public class Organism {
 		return tempDNA.toString();
 	}
 	
+	//has a chance*100% chance of mutating your DNA.
 	public void mutate(double chance) {
 		StringBuilder tempDNA = new StringBuilder(DNA);
 		for (int i = 0; i < tempDNA.length(); i++) {
@@ -30,10 +32,17 @@ public class Organism {
 		DNA = tempDNA.toString();
 	}
 	
+	//gets the DNA.
 	public String getDNA() {
 		return DNA;
 	}
 	
+	//Sets the DNA.
+	public void setDNA(String newDNA) {
+		DNA = newDNA;
+	}
+	
+	//Scores the DNA against target. If target is longer than DNA, you have problems.
 	public int score(String target) {
 		char[] targeted = target.toCharArray();
 		char[] dna = DNA.toCharArray();
@@ -45,6 +54,19 @@ public class Organism {
 		return score;
 	}
 	
+	//Scores the DNA against Evolver.target. You'll probably want to use this most of the time.
+	public int score() {
+		char[] targeted = Evolver.target.toCharArray();
+		char[] dna = DNA.toCharArray();
+		int score = 0;
+		
+		for (int i = 0; i < targeted.length; i++) {
+			score += Math.abs((int)targeted[i] - (int)dna[i]);
+		}
+		return score;
+	}
+	
+	//Breeds this organism with other, with no bias whatsoever. Returns the result.
 	public String breed(Organism other) {
 		StringBuilder a = new StringBuilder(DNA);
 		StringBuilder b = new StringBuilder(other.getDNA());
